@@ -10,9 +10,11 @@ import type { User } from '@supabase/supabase-js'
 
 interface NavbarProps {
   onOpenFaq?: () => void
+  onOpenAbout?: () => void
+  onOpenFeatures?: () => void
 }
 
-export function Navbar({ onOpenFaq }: NavbarProps) {
+export function Navbar({ onOpenFaq, onOpenAbout, onOpenFeatures }: NavbarProps) {
   const [user, setUser] = useState<User | null>(null)
   const router = useRouter()
 
@@ -51,8 +53,8 @@ export function Navbar({ onOpenFaq }: NavbarProps) {
 
         <div className="landing-nav-links flex items-center justify-center gap-2.5 sm:gap-5 md:gap-7 max-[350px]:hidden">
           <Link href="/#home" aria-current="page" className={`${linkClass} text-[#f2cf89]`}>Home</Link>
-          <Link href="/#about" className={linkClass}>About</Link>
-          <Link href="/#features" className={linkClass}>Features</Link>
+          <button type="button" aria-haspopup="dialog" onClick={() => onOpenAbout ? onOpenAbout() : router.push('/#about')} className={linkClass}>About</button>
+          <button type="button" aria-haspopup="dialog" onClick={() => onOpenFeatures ? onOpenFeatures() : router.push('/#features')} className={linkClass}>Features</button>
           <button type="button" onClick={() => onOpenFaq ? onOpenFaq() : router.push('/#faq')} className={linkClass}>FAQ</button>
         </div>
 
