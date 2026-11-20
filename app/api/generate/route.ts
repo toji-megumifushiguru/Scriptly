@@ -260,7 +260,7 @@ Ensure the screenplay follows industry standards and the mood/tone matches the g
           schema: ScreenplaySchema,
           prompt,
           temperature: 0.7,
-          maxTokens: 4096,
+          maxOutputTokens: 4096,
         })
         object = result.object
       } else {
