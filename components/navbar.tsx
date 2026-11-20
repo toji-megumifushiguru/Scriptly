@@ -12,24 +12,24 @@ export function Navbar() {
   const [user, setUser] = useState<User | null>(null)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const router = useRouter()
-  const [supabase] = useState(() => createClient())
 
   useEffect(() => {
+    const supabase = createClient()
     const getUser = async () => {
       const { data: { user } } = await supabase.auth.getUser()
       setUser(user)
     }
-    getUser()
+    void getUser()
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       setUser(session?.user ?? null)
     })
 
     return () => subscription?.unsubscribe()
-  }, [supabase.auth])
+  }, [])
 
   const handleLogout = async () => {
-    await supabase.auth.signOut()
+    await createClient().auth.signOut()
     setIsMenuOpen(false)
     router.push('/')
   }
