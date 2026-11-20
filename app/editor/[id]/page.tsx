@@ -5,7 +5,8 @@ import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { EditorToolbar } from '@/components/editor-toolbar'
 import { SceneSidebar } from '@/components/scene-sidebar'
-import { ArrowLeft } from 'lucide-react'
+import { ArrowLeft, Check, Download, X } from 'lucide-react'
+import { jsPDF } from 'jspdf'
 
 interface Scene {
   id: string
@@ -116,12 +117,48 @@ export default function EditorPage({ params }: { params: { id: string } }) {
   const [activeSceneId, setActiveSceneId] = useState(sampleScenes[0].id)
   const [scenes, setScenes] = useState(sampleScenes)
   const [saved, setSaved] = useState(true)
+  const [exportPanelOpen, setExportPanelOpen] = useState(false)
 
   const activeScene = scenes.find((s) => s.id === activeSceneId) || sampleScenes[0]
 
   const handleSave = () => {
     setSaved(true)
     // In a real app, this would save to a database
+  }
+
+  const handleExportPDF = () => {
+    const pdf = new jsPDF({ unit: 'pt', format: 'letter' })
+    const pageWidth = pdf.internal.pageSize.getWidth()
+    const pageHeight = pdf.internal.pageSize.getHeight()
+    const margin = 64
+    const textWidth = pageWidth - margin * 2
+    let y = margin
+
+    const addParagraph = (text: string, size = 11, gap = 10) => {
+      pdf.setFontSize(size)
+      const lines = pdf.splitTextToSize(text, textWidth)
+      const lineHeight = size * 1.5
+      if (y + lines.length * lineHeight > pageHeight - margin) {
+        pdf.addPage()
+        y = margin
+      }
+      pdf.text(lines, margin, y)
+      y += lines.length * lineHeight + gap
+    }
+
+    pdf.setFont('times', 'bold')
+    addParagraph('ECHOES OF TOMORROW', 20, 7)
+    pdf.setFont('times', 'italic')
+    addParagraph('A Screenplay', 12, 24)
+    pdf.setFont('courier', 'normal')
+    scenes.forEach((scene, index) => {
+      pdf.setFont('courier', 'bold')
+      addParagraph(scene.heading.toUpperCase(), 11, 6)
+      pdf.setFont('courier', 'normal')
+      addParagraph(scene.content, 10, index === scenes.length - 1 ? 0 : 18)
+    })
+    pdf.save('echoes-of-tomorrow-screenplay.pdf')
+    setExportPanelOpen(false)
   }
 
   const handleAddScene = () => {
@@ -174,7 +211,7 @@ export default function EditorPage({ params }: { params: { id: string } }) {
         onSave={handleSave}
         onUndo={() => {}}
         onRedo={() => {}}
-        onExportPDF={() => alert('Export PDF')}
+        onExportPDF={() => setExportPanelOpen(true)}
         onExportFinalDraft={() => alert('Export Final Draft')}
       />
 
@@ -257,6 +294,30 @@ export default function EditorPage({ params }: { params: { id: string } }) {
           </motion.div>
         </motion.div>
       </div>
+      {exportPanelOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 p-4 backdrop-blur-sm" onMouseDown={(event) => { if (event.target === event.currentTarget) setExportPanelOpen(false) }}>
+          <section role="dialog" aria-modal="true" aria-labelledby="export-title" className="grid w-full max-w-3xl gap-6 rounded-2xl border border-primary/35 bg-[#15100b] p-5 shadow-2xl sm:grid-cols-[1fr_250px] sm:p-7">
+            <div className="min-w-0">
+              <div className="mb-4 flex items-start justify-between gap-4">
+                <div><h2 id="export-title" className="font-serif text-2xl text-[#f5dfb6]">Export your screenplay</h2><p className="mt-1 text-sm text-muted-foreground">Your screenplay is ready to download as a PDF.</p></div>
+                <button type="button" onClick={() => setExportPanelOpen(false)} aria-label="Close export dialog" className="rounded-md p-2 text-muted-foreground hover:bg-white/5 hover:text-foreground"><X className="size-4" /></button>
+              </div>
+              <div className="max-h-[48vh] overflow-auto rounded-lg bg-[#f5f0e8] p-6 text-[#171411] shadow-inner sm:max-h-[55vh]">
+                <p className="text-center font-mono text-xs font-bold tracking-wide">ECHOES OF TOMORROW</p>
+                <p className="mt-2 text-center font-mono text-[10px]">A Screenplay</p>
+                <p className="my-5 border-t border-dashed border-[#988b7a]" />
+                {scenes.slice(0, 2).map((scene) => <div key={scene.id} className="mb-5 font-mono text-[10px] leading-relaxed"><p className="font-bold">{scene.heading.toUpperCase()}</p><p className="mt-2 whitespace-pre-wrap">{scene.content.slice(0, 250)}{scene.content.length > 250 ? '…' : ''}</p></div>)}
+                {scenes.length > 2 && <p className="text-center font-mono text-[10px] text-[#756b5d]">+ {scenes.length - 2} more scenes</p>}
+              </div>
+            </div>
+            <div className="flex flex-col justify-center gap-5 border-t border-primary/15 pt-5 sm:border-l sm:border-t-0 sm:pl-6 sm:pt-0">
+              <div className="flex flex-col gap-3 text-sm text-[#ddd0bd]">{['Overview', 'Characters', 'Acts', 'Scenes', 'Screenplay formatting'].map((item) => <p key={item} className="flex items-center gap-3"><Check className="size-4 text-emerald-400" />{item}</p>)}</div>
+              <button type="button" onClick={handleExportPDF} className="auth-submit"><Download aria-hidden="true" />Download PDF</button>
+              <button type="button" onClick={() => setExportPanelOpen(false)} className="rounded-lg border border-primary/45 px-4 py-3 text-sm font-semibold text-[#e8c98f] transition hover:bg-primary/10">Go back to edit</button>
+            </div>
+          </section>
+        </div>
+      )}
     </div>
   )
 }
