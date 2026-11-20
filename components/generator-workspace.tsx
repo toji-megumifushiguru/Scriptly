@@ -73,28 +73,15 @@ export function GeneratorWorkspace() {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <Navbar />
+      {generated && <Navbar />}
 
-      <main className="pt-24 pb-20">
-        <div className="max-w-7xl mx-auto px-4 md:px-8">
+      <main className={generated ? 'pt-24 pb-20' : 'min-h-screen px-3 py-0'}>
+        <div className={generated ? 'max-w-7xl mx-auto px-4 md:px-8' : 'mx-auto max-w-5xl'}>
           {!generated ? (
-            <>
-              {/* Hero Section */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5 }}
-                className="text-center mb-16 md:mb-20"
-              >
-                <h1 className="heading-md mb-4">Create Your Screenplay</h1>
-                <p className="body-text max-w-2xl mx-auto">
-                  Tell us about your story idea and let our AI transform it into a professional, industry-standard screenplay.
-                </p>
-              </motion.div>
-
-              {/* Form */}
+            <div className="relative mx-auto max-w-5xl">
+              <button type="button" onClick={() => router.push('/dashboard')} className="absolute right-3 top-3 z-10 rounded-full border border-[#76572f]/60 bg-[#0b0907]/80 px-3 py-1.5 text-[11px] text-[#d7c39f] backdrop-blur-sm transition hover:border-[#c69b5e] hover:text-[#f0d59c]">My screenplays <span aria-hidden="true">→</span></button>
               <GeneratorForm onGenerate={handleGenerate} />
-            </>
+            </div>
           ) : screenplay ? (
             <>
               {/* Generated Screenplay Display */}
@@ -164,7 +151,7 @@ export function GeneratorWorkspace() {
         </div>
       </main>
 
-      <Footer />
+      {generated && <Footer />}
     </div>
   )
 }
