@@ -1,179 +1,71 @@
 'use client'
 
 import Link from 'next/link'
+import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { Feather, LogOut } from 'lucide-react'
-import { useState, useEffect } from 'react'
-import { createClient } from '@/lib/supabase/client'
 import { useRouter } from 'next/navigation'
+import { createClient } from '@/lib/supabase/client'
 import type { User } from '@supabase/supabase-js'
 
-export function Navbar() {
+interface NavbarProps {
+  onOpenFaq?: () => void
+}
+
+export function Navbar({ onOpenFaq }: NavbarProps) {
   const [user, setUser] = useState<User | null>(null)
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
   const router = useRouter()
 
   useEffect(() => {
     const supabase = createClient()
-    const getUser = async () => {
-      const { data: { user } } = await supabase.auth.getUser()
-      setUser(user)
+    const loadUser = async () => {
+      const { data: { user: currentUser } } = await supabase.auth.getUser()
+      setUser(currentUser)
     }
-    void getUser()
-
+    void loadUser()
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       setUser(session?.user ?? null)
     })
-
-    return () => subscription?.unsubscribe()
+    return () => subscription.unsubscribe()
   }, [])
 
   const handleLogout = async () => {
     await createClient().auth.signOut()
-    setIsMenuOpen(false)
     router.push('/')
   }
 
+  const linkClass = 'text-[9px] text-[#e0d6c7]/80 transition-colors hover:text-[#f2cf89] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#e8be76] sm:text-[11px] md:text-xs'
+
   return (
     <motion.nav
-      initial={{ opacity: 0, y: -20 }}
+      initial={{ opacity: 0, y: -12 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
-      className="fixed inset-x-0 top-0 z-50 border-b border-border bg-background/75 backdrop-blur-xl"
+      transition={{ duration: 0.35 }}
+      aria-label="Main navigation"
+      className="landing-navbar absolute inset-x-0 top-0 z-30 border-b border-[#b58b52]/20 bg-[#080706]/45 backdrop-blur-[3px]"
     >
-      <div className="max-w-7xl mx-auto px-4 md:px-8 py-4 flex items-center justify-between">
-        <Link href="/" className="flex items-center gap-2 group">
-          <motion.div
-            whileHover={{ rotate: 10, scale: 1.1 }}
-            whileTap={{ scale: 0.95 }}
-            className="text-primary"
-          >
-            <Feather className="h-6 w-6 -rotate-12" strokeWidth={1.5} />
-          </motion.div>
-          <span className="font-serif text-xl tracking-tight text-[#f5dfb6] md:text-2xl">
-            Scriptly
-          </span>
+      <div className="grid h-[48px] grid-cols-[auto_1fr_auto] items-center gap-2 px-2.5 sm:h-[54px] sm:gap-4 sm:px-5 md:px-8">
+        <Link href="/" aria-label="Scriptly home" className="landing-logo inline-flex items-center gap-1.5 font-serif text-[13px] font-semibold tracking-tight text-[#f2d398] sm:gap-2 sm:text-base">
+          <Feather className="size-4 -rotate-12 text-[#e9bd71] sm:size-5" strokeWidth={1.35} />Scriptly
         </Link>
 
-        <div className="hidden md:flex items-center gap-8">
-          <Link href="/#features" className="text-sm text-foreground/75 transition-colors hover:text-primary">
-            Features
-          </Link>
-          <Link href="/generator" className="text-sm text-foreground/75 transition-colors hover:text-primary">
-            How it works
-          </Link>
-          <Link href="/#features" className="text-sm text-foreground/75 transition-colors hover:text-primary">
-            FAQ
-          </Link>
-
-          {user ? (
-            <>
-              <Link href="/generator" className="button-secondary text-sm">
-                Generate Script
-              </Link>
-              <Link href="/dashboard" className="button-primary text-sm">
-                Dashboard
-              </Link>
-              <div className="relative">
-                <button
-                  onClick={() => setIsMenuOpen(!isMenuOpen)}
-                  className="flex items-center gap-2 px-4 py-2 rounded-lg hover:bg-muted/50 transition-colors"
-                >
-                  <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center text-xs font-bold text-background">
-                    {user.email?.[0].toUpperCase()}
-                  </div>
-                </button>
-
-                {isMenuOpen && (
-                  <motion.div
-                    initial={{ opacity: 0, y: -10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    className="absolute right-0 mt-2 w-48 glass rounded-lg border border-border overflow-hidden shadow-xl"
-                  >
-                    <div className="p-3 border-b border-border">
-                      <p className="text-xs text-muted-foreground">Signed in as</p>
-                      <p className="text-sm font-medium text-foreground truncate">{user.email}</p>
-                    </div>
-                    <div className="p-2 space-y-1">
-                      <Link
-                        href="/dashboard"
-                        className="flex items-center gap-2 px-3 py-2 text-sm text-foreground hover:bg-muted/50 rounded-lg transition-colors"
-                      >
-                        Dashboard
-                      </Link>
-                      <button
-                        onClick={handleLogout}
-                        className="w-full flex items-center gap-2 px-3 py-2 text-sm text-foreground hover:bg-destructive/10 rounded-lg transition-colors"
-                      >
-                        <LogOut className="w-4 h-4" />
-                        Sign out
-                      </button>
-                    </div>
-                  </motion.div>
-                )}
-              </div>
-            </>
-          ) : (
-            <>
-              <Link href="/auth/login" className="text-foreground hover:text-primary transition-colors">
-                Sign In
-              </Link>
-              <Link href="/auth/sign-up" className="button-primary text-sm">
-                Get Started
-              </Link>
-            </>
-          )}
+        <div className="landing-nav-links flex items-center justify-center gap-2.5 sm:gap-5 md:gap-7 max-[350px]:hidden">
+          <Link href="/#home" aria-current="page" className={`${linkClass} text-[#f2cf89]`}>Home</Link>
+          <Link href="/#about" className={linkClass}>About</Link>
+          <Link href="/#features" className={linkClass}>Features</Link>
+          <button type="button" onClick={() => onOpenFaq ? onOpenFaq() : router.push('/#faq')} className={linkClass}>FAQ</button>
         </div>
 
-        {/* Mobile Menu */}
-        <div className="md:hidden flex items-center gap-2">
+        <div className="landing-nav-actions flex items-center justify-end gap-1.5 sm:gap-2">
           {user ? (
             <>
-              <button
-                onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center text-xs font-bold text-background"
-              >
-                {user.email?.[0].toUpperCase()}
-              </button>
-              {isMenuOpen && (
-                <motion.div
-                  initial={{ opacity: 0, y: -10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="absolute right-0 top-16 w-40 glass rounded-lg border border-border overflow-hidden shadow-xl"
-                >
-                  <div className="p-2 space-y-1">
-                    <Link
-                      href="/generator"
-                      className="block px-3 py-2 text-xs text-foreground hover:bg-muted/50 rounded-lg"
-                    >
-                      Generate
-                    </Link>
-                    <Link
-                      href="/dashboard"
-                      className="block px-3 py-2 text-xs text-foreground hover:bg-muted/50 rounded-lg"
-                    >
-                      Dashboard
-                    </Link>
-                    <button
-                      onClick={handleLogout}
-                      className="w-full flex items-center gap-2 px-3 py-2 text-xs text-foreground hover:bg-destructive/10 rounded-lg"
-                    >
-                      <LogOut className="w-3 h-3" />
-                      Sign out
-                    </button>
-                  </div>
-                </motion.div>
-              )}
+              <Link href="/dashboard" className="rounded-full border border-[#b98a4c]/50 px-2 py-1 text-[8px] text-[#e9cb92] transition hover:border-[#e4bd73] sm:px-3 sm:py-1.5 sm:text-[10px]">Dashboard</Link>
+              <button type="button" onClick={handleLogout} aria-label="Sign out" className="inline-flex items-center gap-1 rounded-full bg-gradient-to-r from-[#f4cf83] to-[#e9ad55] px-2 py-1 text-[8px] font-semibold text-[#221607] transition hover:brightness-110 sm:px-3 sm:py-1.5 sm:text-[10px]"><LogOut className="size-3" /><span className="hidden sm:inline">Sign out</span></button>
             </>
           ) : (
             <>
-              <Link href="/auth/login" className="button-secondary text-xs px-3 py-2">
-                Sign In
-              </Link>
-              <Link href="/auth/sign-up" className="button-primary text-xs px-3 py-2">
-                Get Started
-              </Link>
+              <Link href="/auth/login" className="rounded-full border border-[#b98a4c]/70 px-2 py-1 text-[8px] font-medium text-[#f0d49b] transition hover:bg-[#e8b96f]/10 sm:px-3 sm:py-1.5 sm:text-[10px]">Log In</Link>
+              <Link href="/auth/sign-up" className="rounded-full bg-gradient-to-r from-[#f4cf83] to-[#e9ad55] px-2 py-1 text-[8px] font-bold text-[#221607] shadow-[0_2px_10px_rgba(229,174,86,.18)] transition hover:brightness-110 sm:px-3 sm:py-1.5 sm:text-[10px]">Create Account</Link>
             </>
           )}
         </div>

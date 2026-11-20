@@ -144,6 +144,28 @@
 ::-webkit-scrollbar-thumb:hover { background: rgba(212, 166, 93, .75); }
 ::selection { background: rgba(212, 166, 93, .35); color: #fff5e5; }
 
+@media (max-height: 400px) and (min-width: 351px) {
+  .landing-shell { border-radius: 12px; }
+  .landing-navbar > div { height: 30px !important; gap: 4px !important; padding-inline: 9px !important; }
+  .landing-logo { gap: 5px !important; font-size: 10px !important; }
+  .landing-logo svg { width: 13px !important; height: 13px !important; }
+  .landing-nav-links { gap: 11px !important; }
+  .landing-nav-links a, .landing-nav-links button { font-size: 8px !important; }
+  .landing-nav-actions { gap: 5px !important; }
+  .landing-nav-actions a, .landing-nav-actions button { padding: 3px 7px !important; font-size: 7px !important; line-height: 1.2 !important; }
+  .landing-hero { padding-top: 34px !important; }
+  .landing-copy { margin-top: 8px !important; }
+  .landing-title { font-size: 32px !important; }
+  .landing-copy > div:first-child svg { width: 25px !important; height: 25px !important; }
+  .landing-tagline { margin-top: 2px !important; font-size: 14px !important; line-height: 1.05 !important; }
+  .landing-description { margin-top: 4px !important; font-size: 8px !important; line-height: 1.35 !important; }
+  .landing-actions { gap: 12px !important; margin-top: 7px !important; }
+  .landing-actions a { min-height: 24px !important; padding: 4px 9px !important; font-size: 8px !important; }
+  .landing-features { margin-top: 0 !important; margin-bottom: 3px !important; padding-top: 5px !important; }
+  .landing-features a { min-height: 30px !important; gap: 2px !important; font-size: 7px !important; }
+  .landing-features svg { width: 10px !important; height: 10px !important; }
+}
+
 .auth-page { display: flex; align-items: center; justify-content: center; padding: 32px; background: radial-gradient(ellipse at 50% 0%, rgba(112, 67, 30, .2), transparent 48%), #090705; }
 .auth-frame { display: grid; width: min(1100px, 100%); min-height: min(700px, calc(100vh - 64px)); grid-template-columns: 1fr 1fr; overflow: hidden; border: 1px solid rgba(212, 166, 93, .45); border-radius: 22px; background: #100d0a; box-shadow: 0 28px 100px rgba(0, 0, 0, .55); }
 .auth-art { position: relative; display: flex; flex-direction: column; justify-content: space-between; padding: 34px; background-image: linear-gradient(180deg, rgba(7, 5, 4, .34), rgba(7, 5, 4, .05) 44%, rgba(7, 5, 4, .78)), url('/scriptly-auth-artwork.png'); background-position: center; background-size: cover; }
