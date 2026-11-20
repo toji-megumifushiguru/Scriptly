@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { motion } from 'framer-motion'
-import { Film, LogOut, Settings } from 'lucide-react'
+import { Feather, LogOut } from 'lucide-react'
 import { useState, useEffect } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { useRouter } from 'next/navigation'
@@ -39,7 +39,7 @@ export function Navbar() {
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="fixed top-0 left-0 right-0 z-50 glass-sm border-b border-border"
+      className="fixed inset-x-0 top-0 z-50 border-b border-border bg-background/75 backdrop-blur-xl"
     >
       <div className="max-w-7xl mx-auto px-4 md:px-8 py-4 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-2 group">
@@ -48,19 +48,22 @@ export function Navbar() {
             whileTap={{ scale: 0.95 }}
             className="text-primary"
           >
-            <Film className="w-8 h-8" />
+            <Feather className="h-6 w-6 -rotate-12" strokeWidth={1.5} />
           </motion.div>
-          <span className="text-xl md:text-2xl font-bold bg-gradient-to-r from-primary via-amber-400 to-primary bg-clip-text text-transparent">
+          <span className="font-serif text-xl tracking-tight text-[#f5dfb6] md:text-2xl">
             Scriptly
           </span>
         </Link>
 
         <div className="hidden md:flex items-center gap-8">
-          <Link href="/#features" className="text-foreground hover:text-primary transition-colors duration-200">
+          <Link href="/#features" className="text-sm text-foreground/75 transition-colors hover:text-primary">
             Features
           </Link>
-          <Link href="/#testimonials" className="text-foreground hover:text-primary transition-colors duration-200">
-            Testimonials
+          <Link href="/generator" className="text-sm text-foreground/75 transition-colors hover:text-primary">
+            How it works
+          </Link>
+          <Link href="/#features" className="text-sm text-foreground/75 transition-colors hover:text-primary">
+            FAQ
           </Link>
 
           {user ? (

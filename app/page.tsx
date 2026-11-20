@@ -5,214 +5,89 @@ import { motion } from 'framer-motion'
 import { Navbar } from '@/components/navbar'
 import { Footer } from '@/components/footer'
 import { FeatureCard } from '@/components/feature-card'
-import { TestimonialCard } from '@/components/testimonial-card'
 import { PageBackground } from '@/components/page-transition'
-import { Sparkles, Clapperboard, Users, BookOpen, FileDown, Play } from 'lucide-react'
+import { Sparkles, Clapperboard, Users, BookOpen, FileDown, Play, ArrowRight, Lightbulb, WandSparkles, Download, Pencil, Feather, Film } from 'lucide-react'
 
 const features = [
-  {
-    icon: Sparkles,
-    title: 'AI Screenplay Generation',
-    description: 'Transform your story ideas into full professional screenplays using advanced AI technology.',
-  },
-  {
-    icon: Users,
-    title: 'Character Creation',
-    description: 'Develop compelling characters with detailed profiles and personality traits.',
-  },
-  {
-    icon: Clapperboard,
-    title: 'Three Act Structure',
-    description: 'Automatically organize your screenplay into the proven three-act narrative structure.',
-  },
-  {
-    icon: BookOpen,
-    title: 'Scene Generation',
-    description: 'Generate detailed scenes with dialogue, action lines, and creative direction.',
-  },
-  {
-    icon: FileDown,
-    title: 'PDF Export',
-    description: 'Export your screenplays as industry-standard PDF format ready to share.',
-  },
-  {
-    icon: Play,
-    title: 'Industry Format',
-    description: 'Scripts generated in proper industry format following Hollywood standards.',
-  },
+  { icon: Sparkles, title: 'AI-powered generation', description: 'Turn a single idea into a vivid, industry-ready screenplay.' },
+  { icon: Users, title: 'Character profiles', description: 'Create layered characters with motivations worth watching.' },
+  { icon: Clapperboard, title: 'Structured stories', description: 'Shape your story with a clear, compelling narrative arc.' },
+  { icon: Pencil, title: 'Fully editable', description: 'Refine every scene, line, and detail in your own voice.' },
+  { icon: FileDown, title: 'Ready to share', description: 'Export a polished screenplay and bring your story to the table.' },
+  { icon: BookOpen, title: 'Built for writers', description: 'Keep your premise, scenes, and story beats in one place.' },
 ]
 
-const testimonials = [
-  {
-    name: 'Sarah Chen',
-    role: 'Independent Filmmaker',
-    content: 'Scriptly cut my screenplay development time in half. I can now focus on the creative vision instead of wrestling with formatting.',
-    rating: 5,
-  },
-  {
-    name: 'Marcus Johnson',
-    role: 'Film Producer',
-    content: 'The AI-generated scenes are remarkably creative. This tool has become essential to my writing process.',
-    rating: 5,
-  },
-  {
-    name: 'Elena Rodriguez',
-    role: 'Screenwriter',
-    content: 'As a professional writer, I was skeptical. But Scriptly genuinely improves my workflow and sparks new ideas.',
-    rating: 5,
-  },
+const steps = [
+  { icon: Lightbulb, title: 'Share your idea', text: 'Start with a spark, a premise, or a scene.' },
+  { icon: WandSparkles, title: 'Let Scriptly work', text: 'Shape your story with a thoughtful first draft.' },
+  { icon: Download, title: 'Edit & expand', text: 'Make it yours, then take your script anywhere.' },
 ]
+
+const crafts = ['Screenwriters', 'Filmmakers', 'Storytellers', 'Creators', 'Dreamers']
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-background text-foreground relative">
+    <main className="min-h-screen bg-background text-foreground">
       <PageBackground />
       <Navbar />
-
-      {/* Hero Section */}
-      <section className="min-h-screen flex items-center justify-center pt-20 pb-20 relative overflow-hidden">
-        {/* Animated background elements */}
-        <div className="absolute inset-0 opacity-20 overflow-hidden">
-          <motion.div
-            animate={{ rotate: 360 }}
-            transition={{ duration: 60, repeat: Infinity, ease: 'linear' }}
-            className="absolute top-10 left-10 w-72 h-72 rounded-full border border-primary/30"
-          />
-          <motion.div
-            animate={{ rotate: -360 }}
-            transition={{ duration: 90, repeat: Infinity, ease: 'linear' }}
-            className="absolute bottom-10 right-10 w-96 h-96 rounded-full border border-accent/30"
-          />
+      <section className="hero-stage relative isolate flex min-h-[670px] items-center overflow-hidden border-b border-border pt-24 md:min-h-[760px]">
+        <div className="absolute inset-0 -z-20 bg-[url('/scriptly-studio.png')] bg-cover bg-[center_58%]" aria-hidden="true" />
+        <div className="absolute inset-0 -z-10 bg-gradient-to-r from-background via-background/90 to-background/25" aria-hidden="true" />
+        <div className="absolute inset-0 -z-10 bg-gradient-to-t from-background via-transparent to-background/35" aria-hidden="true" />
+        <div className="mx-auto grid w-full max-w-7xl items-center gap-10 px-5 pb-20 pt-10 md:grid-cols-[1.05fr_.95fr] md:px-10">
+          <motion.div initial={{ opacity: 0, y: 22 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: .65 }} className="max-w-2xl">
+            <div className="mb-7 inline-flex items-center gap-2 rounded-full border border-primary/25 bg-black/35 px-4 py-2 text-xs tracking-[.12em] text-primary backdrop-blur">
+              <Sparkles size={14} /> YOUR STORY, THE BIG SCREEN
+            </div>
+            <div className="mb-1 flex items-center gap-3">
+              <h1 className="font-serif text-6xl font-medium leading-[.92] tracking-[-.045em] text-[#f5dfb6] sm:text-7xl md:text-8xl">Scriptly</h1>
+              <Feather className="mt-2 h-9 w-9 -rotate-12 text-primary sm:h-12 sm:w-12" strokeWidth={1.25} aria-hidden="true" />
+            </div>
+            <p className="font-serif text-2xl italic text-[#f0d5a3] sm:text-3xl">Turn your ideas into<br className="hidden sm:block" /> professional screenplays.</p>
+            <p className="mt-6 max-w-lg text-sm leading-7 text-white/70 sm:text-base">A simple AI-powered scriptwriter that transforms your story idea into a structured, editable screenplay draft.</p>
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+              <Link href="/generator" className="button-primary inline-flex items-center justify-center gap-3 rounded-full px-6 py-3.5 text-sm"><Feather size={16} /> Create your script <ArrowRight size={16} /></Link>
+              <Link href="/dashboard" className="button-secondary inline-flex items-center justify-center gap-2 rounded-full border-white/20 px-6 py-3.5 text-sm text-white hover:text-background"><Film size={16} /> Explore workspace</Link>
+            </div>
+            <p className="mt-5 text-xs text-white/50">From a simple idea to a complete screenplay — powered by AI.</p>
+          </motion.div>
+          <div className="hidden md:block" aria-hidden="true" />
         </div>
+        <div className="absolute bottom-5 left-0 right-0 hidden items-center justify-center gap-4 px-6 md:flex">
+          <span className="h-px w-20 bg-primary/40" /><p className="font-serif text-sm italic text-primary/90">Every great film begins with a story</p><span className="h-px w-20 bg-primary/40" />
+        </div>
+      </section>
 
-        <div className="max-w-6xl mx-auto px-4 md:px-8 relative z-10">
-          <div className="text-center space-y-8">
-            {/* Badge */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1, duration: 0.5 }}
-              className="inline-block"
-            >
-              <div className="glass px-4 py-2 rounded-full inline-flex items-center gap-2">
-                <Sparkles className="w-4 h-4 text-primary" />
-                <span className="text-sm font-medium text-primary">AI-Powered Screenplay Generation</span>
-              </div>
-            </motion.div>
+      <section id="features" className="mx-auto max-w-7xl px-5 py-16 md:px-10 md:py-20">
+        <div className="mb-9 flex items-end justify-between gap-4">
+          <div><p className="mb-2 text-[11px] font-medium uppercase tracking-[.28em] text-primary">The writer&apos;s toolkit</p><h2 className="font-serif text-3xl text-[#f5dfb6] md:text-4xl">Everything your story needs</h2></div>
+          <Link href="/generator" className="hidden items-center gap-2 text-sm text-primary transition hover:text-[#ffe5b5] sm:flex">Start creating <ArrowRight size={15} /></Link>
+        </div>
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {features.map((feature, index) => <FeatureCard key={feature.title} {...feature} index={index} />)}
+        </div>
+      </section>
 
-            {/* Main Heading */}
-            <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2, duration: 0.5 }}
-              className="heading-lg"
-            >
-              Turn Your Ideas Into{' '}
-              <motion.span
-                initial={{ backgroundPosition: '0% 50%' }}
-                animate={{ backgroundPosition: '100% 50%' }}
-                transition={{ duration: 3, repeat: Infinity }}
-                className="bg-gradient-to-r from-primary via-amber-400 to-primary bg-clip-text text-transparent"
-              >
-                Professional Screenplays
-              </motion.span>
-            </motion.h1>
-
-            {/* Description */}
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3, duration: 0.5 }}
-              className="body-text max-w-2xl mx-auto"
-            >
-              Generate complete screenplays from simple story ideas using advanced AI. Create character profiles, develop three-act structures, and produce industry-standard scripts in minutes.
-            </motion.p>
-
-            {/* CTA Buttons */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4, duration: 0.5 }}
-              className="flex flex-col md:flex-row items-center justify-center gap-4"
-            >
-              <Link href="/generator" className="button-primary w-full md:w-auto">
-                Generate Your Script
-              </Link>
-              <Link href="/dashboard" className="button-secondary w-full md:w-auto">
-                View Dashboard
-              </Link>
-            </motion.div>
+      <section className="border-y border-border bg-[#120d09]">
+        <div className="mx-auto max-w-7xl px-5 py-16 md:px-10 md:py-20">
+          <div className="mb-12 text-center"><p className="mb-2 text-[11px] uppercase tracking-[.28em] text-primary">A clear path from spark to script</p><h2 className="font-serif text-3xl text-[#f5dfb6] md:text-4xl">How it works</h2></div>
+          <div className="grid gap-10 sm:grid-cols-3">
+            {steps.map(({ icon: Icon, title, text }, index) => <div key={title} className="relative flex flex-col items-center text-center">
+              {index < steps.length - 1 && <ArrowRight className="absolute right-[-24px] top-7 hidden text-primary/60 sm:block" size={18} />}
+              <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-full border border-primary/60 bg-background text-primary"><Icon size={22} strokeWidth={1.5} /></div>
+              <h3 className="font-serif text-lg text-[#f5dfb6]">{title}</h3><p className="mt-2 max-w-xs text-sm leading-6 text-muted-foreground">{text}</p>
+            </div>)}
           </div>
         </div>
       </section>
 
-      {/* Features Section */}
-      <section id="features" className="py-20 md:py-32 relative">
-        <div className="max-w-7xl mx-auto px-4 md:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="text-center mb-16"
-          >
-            <h2 className="heading-md mb-4">Powerful Features</h2>
-            <p className="body-text max-w-2xl mx-auto">
-              Everything you need to create professional screenplays with the power of AI.
-            </p>
-          </motion.div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-            {features.map((feature, index) => (
-              <FeatureCard key={index} {...feature} index={index} />
-            ))}
-          </div>
+      <section className="mx-auto max-w-7xl px-5 py-14 md:px-10 md:py-16">
+        <div className="flex flex-col gap-6 rounded-2xl border border-primary/20 bg-gradient-to-br from-[#24180e] to-[#100d0a] p-6 md:flex-row md:items-center md:justify-between md:p-9">
+          <div><p className="text-[11px] uppercase tracking-[.25em] text-primary">Made for every kind of storyteller</p><h2 className="mt-2 font-serif text-2xl text-[#f5dfb6]">Your next great story starts here.</h2></div>
+          <div className="flex flex-wrap gap-2">{crafts.map((craft) => <span key={craft} className="rounded-full border border-primary/20 px-3 py-1.5 text-xs text-white/70">{craft}</span>)}</div>
         </div>
       </section>
-
-      {/* Testimonials Section */}
-      <section id="testimonials" className="py-20 md:py-32 relative">
-        <div className="max-w-7xl mx-auto px-4 md:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="text-center mb-16"
-          >
-            <h2 className="heading-md mb-4">Loved by Filmmakers</h2>
-            <p className="body-text max-w-2xl mx-auto">
-              See what professional screenwriters and filmmakers think about Scriptly.
-            </p>
-          </motion.div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
-            {testimonials.map((testimonial, index) => (
-              <TestimonialCard key={index} {...testimonial} index={index} />
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="py-20 md:py-32 relative overflow-hidden">
-        <div className="max-w-4xl mx-auto px-4 md:px-8 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="space-y-8"
-          >
-            <h2 className="heading-md">Ready to Create Your Masterpiece?</h2>
-            <p className="body-text">
-              Start generating professional screenplays today. No credit card required.
-            </p>
-            <Link href="/generator" className="button-primary inline-block">
-              Get Started Free
-            </Link>
-          </motion.div>
-        </div>
-      </section>
-
       <Footer />
-    </div>
+    </main>
   )
 }

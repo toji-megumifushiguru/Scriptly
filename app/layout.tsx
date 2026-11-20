@@ -1,15 +1,16 @@
 import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
-import { Inter } from 'next/font/google'
+import { Inter, Playfair_Display } from 'next/font/google'
 import './globals.css'
 
 const inter = Inter({ subsets: ['latin'] })
+const playfair = Playfair_Display({ subsets: ['latin'], variable: '--font-playfair' })
 
 export const dynamic = 'auto'
 
 export const metadata: Metadata = {
-  title: 'Scriptly - AI Screenplay Generation',
-  description: 'Turn your ideas into professional screenplays with AI-powered screenplay generation',
+  title: 'Scriptly — Your Story, the Big Screen',
+  description: 'Turn your story ideas into polished, editable screenplays with Scriptly, the AI-powered writing studio for storytellers.',
   generator: 'Scriptly',
   icons: {
     icon: [
@@ -33,7 +34,7 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   colorScheme: 'dark',
   themeColor: [
-    { media: '(prefers-color-scheme: dark)', color: '#d4af37' },
+    { media: '(prefers-color-scheme: dark)', color: '#100d0a' },
   ],
   width: 'device-width',
   initialScale: 1,
@@ -47,7 +48,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="bg-background">
-      <body className={`${inter.className} bg-background text-foreground antialiased`}>
+      <body className={`${inter.className} ${playfair.variable} bg-background text-foreground antialiased`}>
         {children}
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>
