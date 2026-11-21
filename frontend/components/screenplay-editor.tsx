@@ -18,8 +18,8 @@ import {
   Trash2,
   Users,
 } from 'lucide-react'
-import { ScreenplayExportDialog } from '@/components/screenplay-export-dialog'
-import type { Act, Character, Scene, Screenplay } from '@/lib/types'
+import { ScreenplayExportDialog } from '@/frontend/components/screenplay-export-dialog'
+import type { Act, Character, Scene, Screenplay } from '@/frontend/lib/types'
 
 interface ScreenplayRow {
   id: string
