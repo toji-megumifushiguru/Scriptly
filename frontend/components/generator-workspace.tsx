@@ -3,12 +3,12 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { useRouter } from 'next/navigation'
-import { Navbar } from '@/components/navbar'
-import { Footer } from '@/components/footer'
-import { GeneratorForm } from '@/components/generator-form'
-import { ScreenplayPreview } from '@/components/screenplay-preview'
+import { Navbar } from '@/frontend/components/navbar'
+import { Footer } from '@/frontend/components/footer'
+import { GeneratorForm } from '@/frontend/components/generator-form'
+import { ScreenplayPreview } from '@/frontend/components/screenplay-preview'
 import { Loader, CheckCircle, RefreshCw } from 'lucide-react'
-import type { Screenplay } from '@/lib/types'
+import type { Screenplay } from '@/frontend/lib/types'
 
 interface FormData {
   idea: string

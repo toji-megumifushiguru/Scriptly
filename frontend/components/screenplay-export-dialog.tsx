@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from 'react'
 import { CheckCircle2, Download, Feather, X } from 'lucide-react'
-import type { Screenplay } from '@/lib/types'
+import type { Screenplay } from '@/frontend/lib/types'
 
 interface ScreenplayExportDialogProps {
   open: boolean

@@ -3,7 +3,7 @@
 import { motion } from 'framer-motion'
 import { Download, FileJson } from 'lucide-react'
 import { useState } from 'react'
-import type { Screenplay } from '@/lib/types'
+import type { Screenplay } from '@/frontend/lib/types'
 
 interface ScreenplayPreviewProps {
   screenplay: Screenplay

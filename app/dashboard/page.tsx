@@ -1,4 +1,4 @@
-import { DashboardWorkspace } from '@/components/dashboard-workspace'
+import { DashboardWorkspace } from '@/frontend/components/dashboard-workspace'
 
 export const dynamic = 'force-dynamic'
 

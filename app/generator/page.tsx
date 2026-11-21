@@ -1,4 +1,4 @@
-import { GeneratorWorkspace } from '@/components/generator-workspace'
+import { GeneratorWorkspace } from '@/frontend/components/generator-workspace'
 
 export const dynamic = 'force-dynamic'
 

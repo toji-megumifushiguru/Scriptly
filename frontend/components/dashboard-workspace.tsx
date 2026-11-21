@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { createClient } from '@/lib/supabase/client'
+import { createClient } from '@/frontend/lib/supabase/client'
 import type { User } from '@supabase/supabase-js'
 import { Feather, Film, FileText, LayoutDashboard, Loader, LogOut, Plus, Search, Star, Trash2, WandSparkles } from 'lucide-react'
 

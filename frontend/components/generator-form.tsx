@@ -28,7 +28,7 @@ import {
   WandSparkles,
 } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
-import type { Screenplay } from '@/lib/types'
+import type { Screenplay } from '@/frontend/lib/types'
 
 interface GeneratorFormProps {
   onGenerate: (screenplay: Screenplay, formData: { idea: string; genre: string; mood: string }) => void
